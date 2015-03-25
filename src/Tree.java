@@ -3,24 +3,9 @@
  * Created by 1 on 18.03.2015.
  */
 public class Tree{
-
-    private Node root;
-    class Node{
-        byte niche;
-        byte mark;
-        Tree niche1;
-        Tree niche2;
-        Tree niche3;
-        Tree niche4;
-        Tree niche5;
-        Tree niche6;
-    }
-
-
     public Tree(){
 
     }
-
     public void Delete(){
 
     }
