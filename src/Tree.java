@@ -3,8 +3,9 @@
  * Created by 1 on 18.03.2015.
  */
 public class Tree{
-    public Tree(){
 
+    public Tree(){
+        //create tree
     }
     public void Delete(){
 
