@@ -4,6 +4,21 @@
  */
 public class Tree{
 
+    private Node root;
+    class Node{
+        byte niche;
+        byte mark;
+        Tree niche1;
+        Tree niche2;
+        Tree niche3;
+        Tree niche4;
+        Tree niche5;
+        Tree niche6;
+        T value;
+        Node (T value)
+    }
+
+
     public Tree(){
         //create tree
     }
