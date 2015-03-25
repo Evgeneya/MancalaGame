@@ -14,13 +14,11 @@ public class Tree{
         Tree niche4;
         Tree niche5;
         Tree niche6;
-        T value;
-        Node (T value)
     }
 
 
     public Tree(){
-        //create tree
+
     }
 
     public void Delete(){
