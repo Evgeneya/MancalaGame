@@ -6,7 +6,7 @@
 
 public class Board {
     private int[][] board;
-    private int MyMancala, YouMancala;          //Не ругайся, начальника, я переименовала их для случая игры двух игроков
+    private int MyMancala, YouMancala;     
 
     public Board(){
         board = new int[2][6];
