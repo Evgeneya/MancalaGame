@@ -28,6 +28,7 @@ public class Board {
         int index=niche-1;
         boolean flag=false;
 
+        return true;
     }
 
     public int[][] getBoard() {
