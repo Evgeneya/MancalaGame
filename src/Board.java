@@ -118,7 +118,7 @@ public class Board {
                     Step(index,player);
                 }
                 else{
-                    YouMancala+=board[player-1][index-1];
+                   YouMancala+=board[player-1][index-1];
                     board[player-1][index-1]=0;
                     return gear;
                 }
@@ -135,6 +135,7 @@ public class Board {
                 System.out.print(board[i][j] + " ");
             System.out.println();
         }
+        System.out.println(MyMancala+" "+YouMancala);
         System.out.println();
     }
     public int [][] getBoard() {
