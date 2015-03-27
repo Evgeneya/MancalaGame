@@ -5,7 +5,7 @@
 /* 1 - user, 0 - comp or 2-user */
 
 public class Board {
-    private static int[][] board;
+    private int[][] board;
     private static int MyMancala, YouMancala;
 
     public Board(){
@@ -19,7 +19,7 @@ public class Board {
         YouMancala = 0;
     }
 /* Для компа или второго пользователя */
-    public static boolean Step(int niche){
+    public boolean Step(int niche){
         /* niche - номер ниши, с которой начнём раскладывать камни */
         int index=niche-1;
         boolean flag=false;
@@ -74,7 +74,7 @@ public class Board {
         return gear;
     }
     //Для пользователя, параметр player для полиморфизма
-    public static boolean Step(int niche, int player){
+    public boolean Step(int niche, int player){
         int index=niche-1;
         boolean flag=false;
         int sum=board[player][index];
@@ -129,7 +129,15 @@ public class Board {
         return gear;
     }
 
-    public static int[][] getBoard() {
+    public void print(){
+        for (int i=0;i<2;i++){
+            for (int j=0;j<6;j++)
+                System.out.print(board[i][j] + " ");
+            System.out.println();
+        }
+        System.out.println();
+    }
+    public int [][] getBoard() {
         return board;
     }
 
