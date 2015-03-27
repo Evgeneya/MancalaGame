@@ -5,8 +5,8 @@
 /* 1 - user, 0 - comp or 2-user */
 
 public class Board {
-    private int[][] board;
-    private int MyMancala, YouMancala;
+    private static int[][] board;
+    private static int MyMancala, YouMancala;
 
     public Board(){
         board = new int[2][6];
@@ -19,12 +19,62 @@ public class Board {
         YouMancala = 0;
     }
 /* Для компа или второго пользователя */
-    public boolean Step(int niche){
+    public static boolean Step(int niche){
         /* niche - номер ниши, с которой начнём раскладывать камни */
-        return true;
+        int index=niche-1;
+        boolean flag=false;
+        int sum=board[0][index];
+        boolean end=false;      //индикатор границы своего поля
+        boolean gear=false;
+        board[0][index]=0;
+        index--;
+        while (sum!=0){
+            while(sum!=0){
+                if(index>=0){
+                    sum--;
+                    board[0][index]++;
+                    index--;
+                }
+                else {
+                    sum--;
+                    end=true;
+                    MyMancala++;
+                    break;
+                }
+            }
+            if (sum!=0){
+                index=0;
+                while(sum!=0) {
+                    if (index<6) {
+                        flag=true;
+                        sum--;
+                        board[1][index]++;
+                        index++;
+                    }
+                    else{
+                        sum--;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!flag){
+            if(!end){
+                if(board[0][index+1]!=1)
+                    Step(index+2);
+                else{
+                    MyMancala+=board[1][index+1];
+                    board[1][index+1]=0;
+                    return false;
+                }
+            }
+            else
+                gear=true;
+        }
+        return gear;
     }
     //Для пользователя, параметр player для полиморфизма
-    public boolean Step(int niche, byte player){
+    public static boolean Step(int niche, int player){
         int index=niche-1;
         boolean flag=false;
         int sum=board[player][index];
@@ -79,7 +129,7 @@ public class Board {
         return gear;
     }
 
-    public int[][] getBoard() {
+    public static int[][] getBoard() {
         return board;
     }
 
