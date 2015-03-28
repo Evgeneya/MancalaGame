@@ -2,7 +2,6 @@
  * Created by 1 on 18.03.2015.
  */
 public class Game {
-    static int board[][];
     public static void main(String[] args) {
         Board board=new Board();
         board.print();
@@ -10,5 +9,6 @@ public class Game {
         board.print();
         board.Step(5);
         board.print();
+        board.CheckEndGame();
     }
 }

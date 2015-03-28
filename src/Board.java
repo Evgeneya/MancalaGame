@@ -6,7 +6,7 @@
 
 public class Board {
     private int[][] board;
-    private static int MyMancala, YouMancala;
+    private int MyMancala, YouMancala;
 
     public Board(){
         board = new int[2][6];
@@ -129,6 +129,7 @@ public class Board {
         return gear;
     }
 
+    /* просто посмотреть результаты работы функций*/
     public void print(){
         for (int i=0;i<2;i++){
             for (int j=0;j<6;j++)
@@ -146,6 +147,18 @@ public class Board {
         this.board = board;
     }
 
+    public boolean CheckEndGame (){
+        short flag=0;
+        for (int x []: board){
+            for (int y : x)
+                if (y==0)
+                    flag++;
+            if (flag==6)
+                return true;
+            flag=0;
+        }
+        return false;
+    }
 
 
 }
