@@ -4,11 +4,19 @@
 public class Game {
     public static void main(String[] args) {
         Board board=new Board();
+        int step;
         board.print();
-        board.Step(3,1);
-        board.print();
-        board.Step(5);
-        board.print();
-        board.CheckEndGame();
+        while (!board.CheckEndGame())
+        {
+            System.out.println("Введите номер ниши:");
+            step=board.userInput();
+            board.Step(step, 1);// для пользователя
+            board.print();
+            Comp comp=new Comp(step,board);
+            //System.out.println(comp.getBest());
+            board.Step(3);//для компа
+            board.print();
+        }
+        board.winner();
     }
 }

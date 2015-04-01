@@ -1,3 +1,4 @@
+import java.util.Scanner;
 /**
  * Created by 1 on 18.03.2015.
  */
@@ -18,7 +19,7 @@ public class Board {
         MyMancala = 0;
         YouMancala = 0;
     }
-/* Для компа или второго пользователя */
+    /* Для компа или второго пользователя */
     public boolean Step(int niche){
         /* niche - номер ниши, с которой начнём раскладывать камни */
         int index=niche-1;
@@ -118,7 +119,7 @@ public class Board {
                     Step(index,player);
                 }
                 else{
-                   YouMancala+=board[player-1][index-1];
+                    YouMancala+=board[player-1][index-1];
                     board[player-1][index-1]=0;
                     return gear;
                 }
@@ -159,6 +160,26 @@ public class Board {
         }
         return false;
     }
-
-
+    public int userInput(){
+        Scanner sc = new Scanner(System.in);
+        Integer i = null;
+        while (true) {
+            String inputText = sc.nextLine();
+            try {
+                i = Integer.parseInt(inputText);
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Error! You must enter an integer. Retype " + e.getLocalizedMessage());
+            }
+        }
+        return i;
+    }
+    public void winner()
+    {
+        if (this.MyMancala>this.YouMancala) System.out.print("\nYou lost!");
+        else
+        if (this.MyMancala<this.YouMancala) System.out.print("\nYou win!");
+        else System.out.print("\nDead heat");
+    }
 }
+
