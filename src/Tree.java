@@ -6,6 +6,9 @@ public class Tree {
 
     private TreeNode root;
 
+    private int mark;
+    private boolean gear;
+    private int sum;
     public TreeNode getRoot() {
         return root;
     }
@@ -14,7 +17,7 @@ public class Tree {
         this.root = new TreeNode(step, 0);  //0-level
     }
 
-    public int AssessVertex(int step, boolean player, /*менять?*/Integer mark, int[][] dop, Boolean gear) {
+    public int AssessVertex(int step, boolean player, int[][] dop) {
         gear = false;
         int index = step - 1;
         int pl = player ? 1 : 0;  //для удобства использования в дальнейшем
@@ -58,7 +61,7 @@ public class Tree {
                 if (end == false) {
                     //if ((dop[0][index+1]!=0)&&(dop[0][index+1]!=1))
                     if (dop[0][index + 1] > 1) {
-                        AssessVertex(index + 2, false, mark, dop, gear);
+                        AssessVertex(index + 2, false, dop);
                     } else {
                         mark += dop[1][index + 1];
                         dop[1][index + 1] = 0;
@@ -104,7 +107,7 @@ public class Tree {
                 if (end == false) {
                     //if ((dop[1][index-1]!=0)&&(dop[1][index-1]!=1))
                     if (dop[1][index - 1] > 1) {
-                        AssessVertex(index, true, mark, dop, gear);
+                        AssessVertex(index, true, dop);
                     } else {
                         dop[0][index - 1] = 0;
                         return mark;
@@ -121,14 +124,14 @@ public class Tree {
         if (level > 5) {
             return;
         }
-        int mark = 0;
+        mark = 0;
         boolean gear = false;        //Индикатор закончился ход на манкале или нет
         int dop1[][] = board.getBoard();
         int dop2[][] = dop1;  //для инициализации приравняла null
         if (level != 0) {
             if ((player == false) && (dop1[0][cur.getHole() - 1] == 0))            //Не оцениваем пустую нишу
                 return;
-            cur.setMark(AssessVertex(cur.getHole(), player, mark, dop1, gear));
+            cur.setMark(AssessVertex(cur.getHole(), player, dop1));
         }
         if (gear != true)    //Если последний камень хода не попал в манкалу, то ход передаётся противнику
         {
@@ -186,17 +189,17 @@ public class Tree {
         return;
     }
 
-    public int Sum(TreeNode cur, Integer sum, int level) {
+    public int Sum(TreeNode cur, int level) {
         if (level > 4) {
             return sum;
         }
         sum += cur.getMark();            //Сумма всех камней, которые возможно получить при совершении хода
-        Sum(cur.getHole1(), sum, level + 1);
-        Sum(cur.getHole2(), sum, level + 1);
-        Sum(cur.getHole3(), sum, level + 1);
-        Sum(cur.getHole4(), sum, level + 1);
-        Sum(cur.getHole5(), sum, level + 1);
-        Sum(cur.getHole6(), sum, level + 1);
+        Sum(cur.getHole1(), level + 1);
+        Sum(cur.getHole2(), level + 1);
+        Sum(cur.getHole3(), level + 1);
+        Sum(cur.getHole4(), level + 1);
+        Sum(cur.getHole5(), level + 1);
+        Sum(cur.getHole6(), level + 1);
         return sum;
     }
 
@@ -204,34 +207,34 @@ public class Tree {
     {
         int[] MasAssess = new int[6];        //Массив оценок ходов
         int[][] field = board.getBoard();
-        int sum = 0;
+        sum = 0;
         if (field[0][root.getHole1().getHole() - 1] != 0)
-            MasAssess[0] = Sum(root.getHole1(), sum, 1);
+            MasAssess[0] = Sum(root.getHole1(), 1);
         else
             MasAssess[0] = 0;
         sum = 0;
         if (field[0][root.getHole2().getHole() - 1] != 0)
-            MasAssess[1] = Sum(root.getHole2(), sum, 1);
+            MasAssess[1] = Sum(root.getHole2(), 1);
         else
             MasAssess[1] = 0;
         sum = 0;
         if (field[0][root.getHole3().getHole() - 1] != 0)
-            MasAssess[2] = Sum(root.getHole3(), sum, 1);
+            MasAssess[2] = Sum(root.getHole3(), 1);
         else
             MasAssess[2] = 0;
         sum = 0;
         if (field[0][root.getHole4().getHole() - 1] != 0)
-            MasAssess[3] = Sum(root.getHole4(), sum, 1);
+            MasAssess[3] = Sum(root.getHole4(), 1);
         else
             MasAssess[3] = 0;
         sum = 0;
         if (field[0][root.getHole5().getHole() - 1] != 0)
-            MasAssess[4] = Sum(root.getHole5(), sum, 1);
+            MasAssess[4] = Sum(root.getHole5(), 1);
         else
             MasAssess[4] = 0;
         sum = 0;
         if (field[0][root.getHole6().getHole() - 1] != 0)
-            MasAssess[5] = Sum(root.getHole6(), sum, 1);
+            MasAssess[5] = Sum(root.getHole6(), 1);
         else
             MasAssess[5] = 0;
         return MasAssess;
