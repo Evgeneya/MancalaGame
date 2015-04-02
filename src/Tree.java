@@ -27,40 +27,51 @@ public class Tree {
         dop[pl][index] = 0;
         boolean flag = false;        //Перешёл ход на поле противника или нет
         boolean end = false;
-        if (pl == 0) {
+        if (pl == 0)
+        {
             index--;
-            while (sum != 0) {
-                flag = false;
-                if (index >= 0) {
-                    sum--;
-                    dop[0][index]++;
-                    index--;
-                } else {
-                    sum--;
-                    end = true;
-                    mark++;
-                    break;
-                }
-            }
-            if (sum != 0) {
-                index = 0;
-                while (sum != 0) {
-                    if (index < 6) {
-                        flag = true;
+            while (sum != 0)
+            {
+                while (sum != 0)
+                {
+                    flag = false;
+                    if (index >= 0)
+                    {
                         sum--;
-                        dop[1][index]++;
-                        index++;
+                        dop[0][index]++;
+                        index--;
                     } else {
                         sum--;
+                        end = true;
+                        mark++;
                         break;
                     }
                 }
+                if (sum != 0)
+                {
+                    index = 0;
+                    while (sum != 0)
+                    {
+                        if (index < 6)
+                        {
+                            flag = true;
+                            sum--;
+                            dop[1][index]++;
+                            index++;
+                        } else {
+                            sum--;
+                            break;
+                        }
+                    }
+               }
             }
+
             if (flag == false)        //Ход остался на своём поле
             {
-                if (end == false) {
-                    //if ((dop[0][index+1]!=0)&&(dop[0][index+1]!=1))
-                    if (dop[0][index + 1] > 1) {
+                if (end == false)
+                {
+                    if (dop[0][index + 1] > 1)
+                    {
                         AssessVertex(index + 2, false, dop);
                     } else {
                         mark += dop[1][index + 1];
@@ -76,29 +87,35 @@ public class Tree {
             index++;
             while (sum != 0)        //Ход на поле игрока
             {
-                flag = false;
-                if (index < 6) {
-                    sum--;
-                    dop[1][index]++;
-                    index++;
-                } else {
-                    sum--;
-                    end = true;
-                    break;
-                }
-            }
-            if (sum != 0) {
-                index = 5;
                 while (sum != 0)    //Ход на поле компьютера
                 {
-                    if (index >= 0) {
-                        flag = true;        //Ход перешёл на поле противника
+                    flag = false;
+                    if (index < 6)
+                    {
                         sum--;
-                        dop[0][index]++;
-                        index--;
+                        dop[1][index]++;
+                        index++;
                     } else {
                         sum--;
+                        end = true;
                         break;
+                    }
+                }
+                if (sum != 0)
+                {
+                    index = 5;
+                    while (sum != 0)    //Ход на поле компьютера
+                    {
+                        if (index >= 0)
+                        {
+                            flag = true;        //Ход перешёл на поле противника
+                            sum--;
+                            dop[0][index]++;
+                            index--;
+                        } else {
+                            sum--;
+                            break;
+                        }
                     }
                 }
             }
