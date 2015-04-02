@@ -14,10 +14,6 @@ public class Tree {
         this.root = new TreeNode(step, 0);  //0-level
     }
 
-    public void Delete() {
-
-    }
-
     public int AssessVertex(int step, boolean player, /*менять?*/Integer mark, int[][] dop, Boolean gear) {
         gear = false;
         int index = step - 1;
@@ -130,9 +126,9 @@ public class Tree {
         int dop1[][] = board.getBoard();
         int dop2[][] = dop1;  //для инициализации приравняла null
         if (level != 0) {
-            if ((player == false) && (dop1[0][cur.getNiche() - 1] == 0))            //Не оцениваем пустую нишу
+            if ((player == false) && (dop1[0][cur.getHole() - 1] == 0))            //Не оцениваем пустую нишу
                 return;
-            cur.setMark(AssessVertex(cur.getNiche(), player, mark, dop1, gear));
+            cur.setMark(AssessVertex(cur.getHole(), player, mark, dop1, gear));
         }
         if (gear != true)    //Если последний камень хода не попал в манкалу, то ход передаётся противнику
         {
@@ -144,25 +140,25 @@ public class Tree {
                 dop2[i][j] = dop1[i][j];
         //dop2 = dop1.clone();
 
-        if ((cur.getNiche1() != null) && (dop1[0][cur.getNiche1().getNiche() - 1] != 0)) {
+        if ((cur.getHole1() != null) && (dop1[0][cur.getHole1().getHole() - 1] != 0)) {
             mark = 0;
-            AssessTree(cur.getNiche1(), player, dop1, level + 1, board);
+            AssessTree(cur.getHole1(), player, dop1, level + 1, board);
         }
         mark = 0;
         for (int i = 0; i < 2; i++)
             for (int j = 0; j < 6; j++)
                 dop1[i][j] = dop2[i][j];
         //dop1 = dop2.clone();
-        if ((cur.getNiche2() != null) && (dop1[0][cur.getNiche2().getNiche() - 1] != 0)) {
-            AssessTree(cur.getNiche2(), player, dop1, level + 1, board);
+        if ((cur.getHole2() != null) && (dop1[0][cur.getHole2().getHole() - 1] != 0)) {
+            AssessTree(cur.getHole2(), player, dop1, level + 1, board);
         }
         for (int i = 0; i < 2; i++)
             for (int j = 0; j < 6; j++)
                 dop1[i][j] = dop2[i][j];
 
         mark = 0;
-        if (cur.getNiche3() != null) {
-            AssessTree(cur.getNiche3(), player, dop1, level + 1, board);
+        if (cur.getHole3() != null) {
+            AssessTree(cur.getHole3(), player, dop1, level + 1, board);
         }
 
         for (int i = 0; i < 2; i++)
@@ -170,72 +166,72 @@ public class Tree {
                 dop1[i][j] = dop2[i][j];
 
         mark = 0;
-        if (cur.getNiche4() != null) {
-            AssessTree(cur.getNiche4(), player, dop1, level + 1, board);
+        if (cur.getHole4() != null) {
+            AssessTree(cur.getHole4(), player, dop1, level + 1, board);
         }
         for (int i = 0; i < 2; i++)
             for (int j = 0; j < 6; j++)
                 dop1[i][j] = dop2[i][j];
         mark = 0;
-        if (cur.getNiche5() != null) {
-            AssessTree(cur.getNiche5(), player, dop1, level + 1, board);
+        if (cur.getHole5() != null) {
+            AssessTree(cur.getHole5(), player, dop1, level + 1, board);
         }
         for (int i = 0; i < 2; i++)
             for (int j = 0; j < 6; j++)
                 dop1[i][j] = dop2[i][j];
         mark = 0;
-        if (cur.getNiche6() != null) {
-            AssessTree(cur.getNiche6(), player, dop1, level + 1, board);
+        if (cur.getHole6() != null) {
+            AssessTree(cur.getHole6(), player, dop1, level + 1, board);
         }
         return;
     }
 
-    int Sum(TreeNode cur, Integer sum, int level) {
+    public int Sum(TreeNode cur, Integer sum, int level) {
         if (level > 4) {
             return sum;
         }
         sum += cur.getMark();            //Сумма всех камней, которые возможно получить при совершении хода
-        Sum(cur.getNiche1(), sum, level + 1);
-        Sum(cur.getNiche2(), sum, level + 1);
-        Sum(cur.getNiche3(), sum, level + 1);
-        Sum(cur.getNiche4(), sum, level + 1);
-        Sum(cur.getNiche5(), sum, level + 1);
-        Sum(cur.getNiche6(), sum, level + 1);
+        Sum(cur.getHole1(), sum, level + 1);
+        Sum(cur.getHole2(), sum, level + 1);
+        Sum(cur.getHole3(), sum, level + 1);
+        Sum(cur.getHole4(), sum, level + 1);
+        Sum(cur.getHole5(), sum, level + 1);
+        Sum(cur.getHole6(), sum, level + 1);
         return sum;
     }
 
-    int[] AssessStep(TreeNode root, Board board)    //Оценка каждого хода
+    public int[] AssessStep(TreeNode root, Board board)    //Оценка каждого хода
     {
         int[] MasAssess = new int[6];        //Массив оценок ходов
         int[][] field = board.getBoard();
         int sum = 0;
-        if (field[0][root.getNiche1().getNiche() - 1] != 0)
-            MasAssess[0] = Sum(root.getNiche1(), sum, 1);
+        if (field[0][root.getHole1().getHole() - 1] != 0)
+            MasAssess[0] = Sum(root.getHole1(), sum, 1);
         else
             MasAssess[0] = 0;
         sum = 0;
-        if (field[0][root.getNiche2().getNiche() - 1] != 0)
-            MasAssess[1] = Sum(root.getNiche2(), sum, 1);
+        if (field[0][root.getHole2().getHole() - 1] != 0)
+            MasAssess[1] = Sum(root.getHole2(), sum, 1);
         else
             MasAssess[1] = 0;
         sum = 0;
-        if (field[0][root.getNiche3().getNiche() - 1] != 0)
-            MasAssess[2] = Sum(root.getNiche3(), sum, 1);
+        if (field[0][root.getHole3().getHole() - 1] != 0)
+            MasAssess[2] = Sum(root.getHole3(), sum, 1);
         else
             MasAssess[2] = 0;
         sum = 0;
-        if (field[0][root.getNiche4().getNiche() - 1] != 0)
-            MasAssess[3] = Sum(root.getNiche4(), sum, 1);
+        if (field[0][root.getHole4().getHole() - 1] != 0)
+            MasAssess[3] = Sum(root.getHole4(), sum, 1);
         else
             MasAssess[3] = 0;
         sum = 0;
-        if (field[0][root.getNiche5().getNiche() - 1] != 0)
-            MasAssess[4] = Sum(root.getNiche5(), sum, 1);
+        if (field[0][root.getHole5().getHole() - 1] != 0)
+            MasAssess[4] = Sum(root.getHole5(), sum, 1);
         else
             MasAssess[4] = 0;
         sum = 0;
-        if (field[0][root.getNiche6().getNiche() - 1] != 0)
-            MasAssess[5] = Sum(root.getNiche6(), sum, 1);
+        if (field[0][root.getHole6().getHole() - 1] != 0)
+            MasAssess[5] = Sum(root.getHole6(), sum, 1);
         else
             MasAssess[5] = 0;
         return MasAssess;
@@ -243,24 +239,24 @@ public class Tree {
 }
 
 class TreeNode {
-    private int niche;
+    private int hole;
     private int mark = 0;
-    private TreeNode niche1 = null, niche2 = null, niche3 = null, niche4 = null, niche5 = null, niche6 = null;
+    private TreeNode hole1 = null, hole2 = null, hole3 = null, hole4 = null, hole5 = null, hole6 = null;
 
     public TreeNode(int step, int level) {
-        this.niche = step;
+        this.hole = step;
         if (level <= 5) {
-            this.niche1 = new TreeNode(1, level + 1);
-            this.niche2 = new TreeNode(2, level + 1);
-            this.niche3 = new TreeNode(3, level + 1);
-            this.niche4 = new TreeNode(4, level + 1);
-            this.niche5 = new TreeNode(5, level + 1);
-            this.niche6 = new TreeNode(6, level + 1);
+            this.hole1 = new TreeNode(1, level + 1);
+            this.hole2 = new TreeNode(2, level + 1);
+            this.hole3 = new TreeNode(3, level + 1);
+            this.hole4 = new TreeNode(4, level + 1);
+            this.hole5 = new TreeNode(5, level + 1);
+            this.hole6 = new TreeNode(6, level + 1);
         }
     }
 
-    public int getNiche() {
-        return niche;
+    public int getHole() {
+        return hole;
     }
 
     public int getMark() {
@@ -271,28 +267,28 @@ class TreeNode {
         this.mark = mark;
     }
 
-    public TreeNode getNiche1() {
-        return niche1;
+    public TreeNode getHole1() {
+        return hole1;
     }
 
-    public TreeNode getNiche2() {
-        return niche2;
+    public TreeNode getHole2() {
+        return hole2;
     }
 
-    public TreeNode getNiche3() {
-        return niche3;
+    public TreeNode getHole3() {
+        return hole3;
     }
 
-    public TreeNode getNiche4() {
-        return niche4;
+    public TreeNode getHole4() {
+        return hole4;
     }
 
-    public TreeNode getNiche5() {
-        return niche5;
+    public TreeNode getHole5() {
+        return hole5;
     }
 
-    public TreeNode getNiche6() {
-        return niche6;
+    public TreeNode getHole6() {
+        return hole6;
     }
 }
 
