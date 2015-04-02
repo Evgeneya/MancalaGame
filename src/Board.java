@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Created by 1 on 18.03.2015.
  */
@@ -160,5 +162,26 @@ public class Board {
         return false;
     }
 
+    public int userInput(){
+        Scanner sc = new Scanner(System.in);
+        Integer i = null;
+        while (true) {
+            String inputText = sc.nextLine();
+            try {
+                i = Integer.parseInt(inputText);
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Error! You must enter an integer. Retype " + e.getLocalizedMessage());
+            }
+        }
+        return i;
+    }
 
+    public void winner()
+    {
+        if (this.MyMancala>this.YouMancala) System.out.print("\nYou lost!");
+        else
+        if (this.MyMancala<this.YouMancala) System.out.print("\nYou win!");
+        else System.out.print("\nDead heat");
+    }
 }
