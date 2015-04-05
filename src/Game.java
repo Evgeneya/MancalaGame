@@ -22,5 +22,6 @@ public class Game {
         //board.winner();*/
         Tree tree = new Tree(1);
         tree.printTree(tree.getRoot(), 0);
+        System.out.println(tree.getSumma());
     }
 }

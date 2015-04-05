@@ -261,8 +261,14 @@ public class Tree {
             MasAssess[5] = 0;
         return MasAssess;
     }
+    int summa = 7;  // для тестирования числа листьев в дереве
+
+    public int getSumma() {
+        return summa;
+    }
 
     public void printTree(TreeNode cur, int level) throws IOException {
+        if (level > 2) return;  //закомментить при вычислении числа листьев
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         cur.printNode(level);
         if (cur.getHole1() != null)
@@ -284,6 +290,7 @@ public class Tree {
             printTree(cur.getHole4(), level+1);
             printTree(cur.getHole5(), level+1);
             printTree(cur.getHole6(), level+1);
+            summa+=36;
         }
     }
 }
