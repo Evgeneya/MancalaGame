@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by 1 on 18.03.2015.
@@ -5,6 +8,8 @@
 public class Tree {
 
     private TreeNode root;
+
+
 
     private int mark;
     private boolean gear;
@@ -256,6 +261,31 @@ public class Tree {
             MasAssess[5] = 0;
         return MasAssess;
     }
+
+    public void printTree(TreeNode cur, int level) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        cur.printNode(level);
+        if (cur.getHole1() != null)
+        {
+            cur.getHole1().printNode(level+1);
+            cur.getHole2().printNode(level+1);
+            cur.getHole3().printNode(level+1);
+            cur.getHole4().printNode(level+1);
+            cur.getHole5().printNode(level+1);
+            cur.getHole6().printNode(level+1);
+
+            System.out.print("Введи строку для продолжения:");
+            reader.readLine();
+            System.out.println();
+
+            printTree(cur.getHole1(), level+1);
+            printTree(cur.getHole2(), level+1);
+            printTree(cur.getHole3(), level+1);
+            printTree(cur.getHole4(), level+1);
+            printTree(cur.getHole5(), level+1);
+            printTree(cur.getHole6(), level+1);
+        }
+    }
 }
 
 class TreeNode {
@@ -309,6 +339,27 @@ class TreeNode {
 
     public TreeNode getHole6() {
         return hole6;
+    }
+
+    public void printNode(int level){
+        System.out.println(this + "level = " + level);
+        System.out.println("Children: level " + (level+1));
+        if (this.getHole1() != null) {
+            System.out.println(this.getHole1().toString() + "; " +
+                    this.getHole2() + "; " +
+                    this.getHole3() + "; " +
+                    this.getHole4() + "; " +
+                    this.getHole5()+ this.getHole6());
+        }
+        System.out.println();
+    }
+
+    @Override
+    public String toString() {
+        return "TreeNode{" +
+                "hole=" + hole +
+                ", mark=" + mark +
+                '}';
     }
 }
 
