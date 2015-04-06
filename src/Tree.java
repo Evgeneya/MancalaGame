@@ -148,8 +148,14 @@ public class Tree {
         }
         mark = 0;
         boolean gear = false;        //Индикатор закончился ход на манкале или нет
-        int dop1[][] = board.getBoard();
-        int dop2[][] = dop1;  //для инициализации приравняла null
+
+        int dopBoard[][] = board.getBoard();
+        int dop1[][] = new int[2][6];
+        int dop2[][] = new int[2][6];
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 6; j++)
+                dop1[i][j] = dopBoard[i][j];
+
         if (level != 0) {
             if ((player == false) && (dop1[0][cur.getHole() - 1] == 0))            //Не оцениваем пустую нишу
                 return;
@@ -163,7 +169,6 @@ public class Tree {
         for (int i = 0; i < 2; i++)
             for (int j = 0; j < 6; j++)
                 dop2[i][j] = dop1[i][j];
-        //dop2 = dop1.clone();
 
         if ((cur.getHole1() != null) && (dop1[0][cur.getHole1().getHole() - 1] != 0)) {
             mark = 0;
@@ -173,7 +178,7 @@ public class Tree {
         for (int i = 0; i < 2; i++)
             for (int j = 0; j < 6; j++)
                 dop1[i][j] = dop2[i][j];
-        //dop1 = dop2.clone();
+
         if ((cur.getHole2() != null) && (dop1[0][cur.getHole2().getHole() - 1] != 0)) {
             AssessTree(cur.getHole2(), player, dop1, level + 1, board);
         }
