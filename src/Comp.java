@@ -25,6 +25,6 @@ public class Comp extends Tree{
             if (MasAssess[IndexMaxMark] < MasAssess[i])
                 IndexMaxMark = i;
         }
-        return IndexMaxMark;		//Ход, при котором предполагаемое число камней, которые могут быть положены с свою манкалу, больше
+        return IndexMaxMark+1;		//Ход, при котором предполагаемое число камней, которые могут быть положены с свою манкалу, больше
     }
 }
