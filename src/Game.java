@@ -5,7 +5,7 @@ import java.io.IOException;
  */
 public class Game {
     public static void main(String[] args) throws IOException {
-        /*Board board=new Board();
+        Board board=new Board();
         int step;
         board.print();
         while (!board.CheckEndGame())
@@ -15,13 +15,14 @@ public class Game {
             board.Step(step, 1);// для пользователя
             board.print();
             Comp comp = new Comp(step, board);
-            //System.out.println(comp.getBest());
-            board.Step(3);//для компа
+            int best = comp.getBest();  //счет ниш начинается с 1
+            System.out.println(best);
+            board.Step(best);   //для компа
             board.print();
         }
-        //board.winner();*/
-        Tree tree = new Tree(1);
+        //board.winner();
+        /*Tree tree = new Tree(1);
         tree.printTree(tree.getRoot(), 0);
-        System.out.println(tree.getSumma());
+        System.out.println(tree.getSumma());*/
     }
 }
