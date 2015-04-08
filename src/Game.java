@@ -6,23 +6,39 @@ import java.io.IOException;
 public class Game {
     public static void main(String[] args) throws IOException {
         Board board=new Board();
-        int step;
+        int step=0;
+        boolean gear=true;
         board.print();
+        boolean player=true;
         while (!board.CheckEndGame())
         {
-            System.out.println("Введите номер ниши:");
-            step=board.userInput();
-            board.Step(step, 1);// для пользователя
-            board.print();
-            Comp comp = new Comp(step, board);
-            int best = comp.getBest();  //счет ниш начинается с 1
-            System.out.println(best);
-            board.Step(best);   //для компа
-            board.print();
+            if (player){
+                while (gear) {
+                    System.out.println("Введите номер ниши:");
+                    do{
+                        step=board.userInput();
+                    }while(step<0 || step>6);
+                    if (board.getSum(step)!=0)
+                        gear = board.Step(step, 1);
+                    else{
+                        System.out.println("В этой нише нет камней. Выберите другую нишу:");
+                        do{
+                            step=board.userInput();
+                        }while(step<0 || step>6);
+                    }
+                    board.print();
+                }
+            }
+            else{
+                while (gear){
+                    Comp comp=new Comp(step,board);
+                    gear=board.Step(comp.getBest());//для компа
+                    board.print();
+                }
+            }
+            player=!player;
+            gear=true;
         }
-        //board.winner();
-        /*Tree tree = new Tree(1);
-        tree.printTree(tree.getRoot(), 0);
-        System.out.println(tree.getSumma());*/
+        board.winner();
     }
 }

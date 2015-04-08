@@ -20,12 +20,17 @@ public class Board {
         MyMancala = 0;
         YouMancala = 0;
     }
+    public int getSum(int i){
+        return board[1][i-1];
+    }
 /* Для компа или второго пользователя */
-    public boolean Step(int niche){
+    public boolean Step(int hole){
         /* niche - номер ниши, с которой начнём раскладывать камни */
-        int index=niche-1;
+        int index=hole-1;
         boolean flag=false;
         int sum=board[0][index];
+        if (sum==0)
+            return false;
         boolean end=false;      //индикатор границы своего поля
         boolean gear=false;
         board[0][index]=0;
@@ -76,10 +81,12 @@ public class Board {
         return gear;
     }
     //Для пользователя, параметр player для полиморфизма
-    public boolean Step(int niche, int player){
-        int index=niche-1;
+    public boolean Step(int hole, int player){
+        int index=hole-1;
         boolean flag=false;
         int sum=board[player][index];
+        if (sum==0)
+            return false;
         boolean end=false;      //индикатор границы своего поля
         boolean gear=false;
         board[player][index]=0;
@@ -150,10 +157,10 @@ public class Board {
     }
 
     public boolean CheckEndGame (){
-        short flag=0;
-        for (int x []: board){
-            for (int y : x)
-                if (y==0)
+        short flag = 0;
+        for (int i = 0;i<2;i++){
+            for (int j = 0;j<6;j++)
+                if (this.board[i][j]==0)
                     flag++;
             if (flag==6)
                 return true;
