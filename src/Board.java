@@ -29,13 +29,13 @@ public class Board {
         int index=hole-1;
         boolean flag=false;
         int sum=board[0][index];
-        if (sum==0)
+        if (sum == 0)
             return false;
         boolean end=false;      //индикатор границы своего поля
         boolean gear=false;
         board[0][index]=0;
         index--;
-        while (sum!=0){
+        if (sum!=0){
             while(sum!=0){
                 if(index>=0){
                     sum--;
@@ -85,13 +85,13 @@ public class Board {
         int index=hole-1;
         boolean flag=false;
         int sum=board[player][index];
-        if (sum==0)
+        if (sum == 0)
             return false;
         boolean end=false;      //индикатор границы своего поля
         boolean gear=false;
         board[player][index]=0;
         index++;
-        while (sum!=0){
+        if (sum!=0){
             while (sum!=0) {
                 flag = false;
                 if (index < 6) {

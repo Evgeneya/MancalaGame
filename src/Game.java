@@ -13,7 +13,7 @@ public class Game {
         while (!board.CheckEndGame())
         {
             if (player){
-                while (gear) {
+                while (gear && !board.CheckEndGame()) {
                     System.out.println("Введите номер ниши:");
                     do{
                         step=board.userInput();
