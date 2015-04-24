@@ -30,7 +30,7 @@ public class Game {
                 }
             }
             else{
-                while (gear){
+                while (gear && !board.CheckEndGame()){
                     Comp comp=new Comp(step,board);
                     gear=board.Step(comp.getBest());//для компа
                     board.print();

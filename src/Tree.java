@@ -35,7 +35,7 @@ public class Tree {
         if (pl == 0)
         {
             index--;
-            while (sum != 0)
+            if (sum != 0)
             {
                 while (sum != 0)
                 {
@@ -90,7 +90,7 @@ public class Tree {
             }
         } else {
             index++;
-            while (sum != 0)        //Ход на поле игрока
+            if (sum != 0)        //Ход на поле игрока
             {
                 while (sum != 0)    //Ход на поле компьютера
                 {
