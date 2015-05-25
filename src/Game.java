@@ -1,7 +1,6 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -10,10 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import static javafx.geometry.HPos.*;
@@ -24,7 +21,6 @@ import static javafx.geometry.HPos.*;
  */
 public class Game extends Application {
 
-    private Label status;
     private Board board = new Board();
     private boolean gear = true;
     private int step = 0;
@@ -210,47 +206,69 @@ public class Game extends Application {
                 print();
             }
         }
+        print();
+
 
 
         if(this.board.CheckEndGame()) {
             print();
             final Stage result = new Stage();
-            Group root = new Group();
-            Scene scene = new Scene(root);
             result.setTitle("Result");
-            result.setMinWidth(300);
-            result.setMinHeight(200);
-            result.setResizable(false);
-            result.setScene(scene);
             String s = this.board.winner();
             if (s.equals("You lose!")){
-                result.getIcons().add(new Image("los.png"));
+                result.getIcons().add(new Image("loser.png"));
             }
-            else if (s.equals("You win!")){
-                result.getIcons().add(new Image("Winner.png"));
+            else if (s.equals("You win!")){                result.getIcons().add(new Image("winner.png"));
 
-                }
-                else {
-                    result.getIcons().add(new Image("partnership.png"));
-                }
+            }
+            else {
+                result.getIcons().add(new Image("drawn.png"));
+            }
 
+            Group root = new Group();
+            Scene scene = new Scene(root, 200, 100, Color.SALMON);
+            result.setResizable(false);
+            result.setScene(scene);
 
-            status = new Label();
-            status.setText(s);
-            status.setStyle("-fx-font-size: 12px;" +
+            Label status = new Label();
+            status.setText(" " + s);
+            status.setStyle("-fx-font-size: 22px;" +
                     "    -fx-font-weight: bold;" +
-                    "    -fx-text-fill: orange;" +
+                    "    -fx-text-fill: whitesmoke;" +
                     "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
-
-            Button OK = new Button("OK");
+            Label question = new Label();
+            question.setText("    Do You want to play again?");
+            question.setStyle("-fx-font-size: 12px;" +
+                    "    -fx-font-weight: bold;" +
+                    "    -fx-text-fill: darkviolet;" +
+                    "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+            Button YES = new Button("YES");
+            Button NO = new Button("NO");
+            HBox hBox = new HBox();
+            hBox.getChildren().addAll(YES, NO);
+            hBox.setSpacing(20);
+            hBox.setAlignment(Pos.CENTER);
             VBox vBox = new VBox();
-            vBox.getChildren().addAll(status, OK);
+            vBox.setSpacing(15);
+            vBox.getChildren().addAll(status, question, hBox);
+            vBox.setAlignment(Pos.CENTER);
+
             root.getChildren().add(vBox);
             result.show();
-            OK.setOnAction(new EventHandler<ActionEvent>() {
+            NO.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     result.close();
+                    primaryStage.close();
+                    return;
+                }
+            });
+            YES.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    result.close();
+                    board = new Board();
+                    print();
                 }
             });
         }
