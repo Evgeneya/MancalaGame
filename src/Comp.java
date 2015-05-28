@@ -1,4 +1,5 @@
 public class Comp extends Tree {
+
     private boolean player = false;
     private int best;
 
@@ -9,6 +10,7 @@ public class Comp extends Tree {
     }
 
     public int getBest() {
+
         return this.best;
     }
 
@@ -16,7 +18,7 @@ public class Comp extends Tree {
         int[] MasAssess = this.AssessStep(root, board);
         int IndexMaxMark = 0;
 
-        for(int i = 0; i < 6; ++i) {
+        for(int i = 0; i < 6; ++i) {   //цикл можно начать с 1, нет смысла сравнивать одинаковые значения
             if(MasAssess[IndexMaxMark] < MasAssess[i]) {
                 IndexMaxMark = i;
             }
