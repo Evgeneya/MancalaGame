@@ -1,4 +1,5 @@
 public class TreeNode {
+
     private int hole;
     private int mark = 0;
     private TreeNode hole1 = null;
@@ -57,17 +58,4 @@ public class TreeNode {
         return this.hole6;
     }
 
-    public void printNode(int level) {
-        System.out.println(this + "level = " + level);
-        System.out.println("Children: level " + (level + 1));
-        if(this.getHole1() != null) {
-            System.out.println(this.getHole1().toString() + "; " + this.getHole2() + "; " + this.getHole3() + "; " + this.getHole4() + "; " + this.getHole5() + this.getHole6());
-        }
-
-        System.out.println();
-    }
-
-    public String toString() {
-        return "TreeNode{hole=" + this.hole + ", mark=" + this.mark + '}';
-    }
 }
