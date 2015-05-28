@@ -23,7 +23,7 @@ public class Tree {
             dop[pl][index] = 0;
             boolean flag = false;
             boolean end = false;
-            if(pl == 0) {
+            if(pl == 0) {  // if (!player)
                 --index;
 
                 while(sum != 0) {
@@ -41,13 +41,15 @@ public class Tree {
                         --index;
                     }
 
-                    if(sum != 0) {
+                    if(sum != 0) {  //убрать
                         for(index = 0; sum != 0; ++index) {
                             if(index >= 6) {
-                                --sum;
+                                --sum; //зачем?
+                                //index = 5; //для след. итерации
                                 break;
                             }
 
+                            //end = false;
                             flag = true;
                             --sum;
                             ++dop[1][index];
@@ -57,7 +59,7 @@ public class Tree {
 
                 if(!flag) {
                     if(!end) {
-                        if(dop[0][index + 1] <= 1) {
+                        if(dop[0][index + 1] <= 1) {  //ровно 1
                             this.mark += dop[1][index + 1];
                             dop[1][index + 1] = 0;
                             return this.mark;
@@ -77,7 +79,7 @@ public class Tree {
                     while(sum != 0) {
                         flag = false;
                         if(index >= 6) {
-                            --sum;
+                            --sum;  //почему не влияет на mark
                             end = true;
                             break;
                         }
@@ -87,13 +89,15 @@ public class Tree {
                         ++index;
                     }
 
-                    if(sum != 0) {
+                    if(sum != 0) { //убрать
                         for(index = 5; sum != 0; --index) {
                             if(index < 0) {
-                                --sum;
+                                --sum;  //влияние на mark
+                                //index = 0;  //для след. цикла
                                 break;
                             }
 
+                            //end = false;
                             flag = true;
                             --sum;
                             ++dop[0][index];
@@ -103,7 +107,7 @@ public class Tree {
 
                 if(!flag) {
                     if(!end) {
-                        if(dop[1][index - 1] <= 1) {
+                        if(dop[1][index - 1] <= 1) { //ровно 1
                             dop[0][index - 1] = 0;
                             return this.mark;
                         }
