@@ -1,89 +1,100 @@
-import java.util.Scanner;
-/**
- * Created by 1 on 18.03.2015.
- */
-
-/* 1 - user, 0 - comp or 2-user */
-
 public class Board {
-    private int[][] board;
-    private int MyMancala, YouMancala;
-
-    public Board(){
-        board = new int[2][6];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 6; j++) {
-                board[i][j] = 3;
+    private int[][] board = new int[2][6];
+    private int CompMancala;
+    private int YouMancala;
+    // Господа, это досадное упущение, необходимо константами обзавестись
+    public Board() {
+        for(int i = 0; i < 2; ++i) {
+            for(int j = 0; j < 6; ++j) {
+                this.board[i][j] = 3;
             }
         }
-        MyMancala = 0;
-        YouMancala = 0;
+        this.CompMancala = 0;
+        this.YouMancala = 0;
     }
+
+    public int getSum(int i) {
+        return this.board[1][i - 1];
+    }
+
     /* Для компа или второго пользователя */
-    public boolean Step(int niche){
-        /* niche - номер ниши, с которой начнём раскладывать камни */
-        int index=niche-1;
-        boolean flag=false;
+    public boolean Step(int hole){
+        /* hole - номер ниши, с которой начнём раскладывать камни */
+        int index=hole-1;
+        boolean flag=false;   //принимает значение true, если раскладка переходит на поле противника(пользователя)
         int sum=board[0][index];
-        boolean end=false;      //индикатор границы своего поля
-        boolean gear=false;
+        if (sum == 0)
+            return false;
+        boolean end=false;      //индикатор попадания в свою манкалу
+        //boolean gear=false;     //Индикатор того, что ход остановился в своей манкале   // Возможно и не нужен (?). Помрачилась умом
         board[0][index]=0;
         index--;
-        while (sum!=0){
+        //добавить еще 1 цикл, для случая возвращения на свое поле
+        // Однако, сударяня, не согаласна, данный цикл уже присутсвует. Мы разложились по своему полю, потом зашли в свою манкалу, туда тоже закинули. теперь нам надо либо разложить
+        //к противнику. если сумма не равна 0, либо такой вариант, что сумма закончилась на своей манкале. для этого вводится цикл if, у котороо вы поставили сию отметку "убрать". Елена Кувшинова
+        //если Вы изъявите недовольство, то возможно я не поймала нить вашей мысли, и со смирением учту эти замечания
+        if (sum!=0){  // убрать
             while(sum!=0){
+                //flag = false //можем вернуться в этот цикл, то есть на свое поле
+                //Не знаю вообще возможен ли подобный вариант. Елена Кувшинова
                 if(index>=0){
                     sum--;
-                    board[0][index]++;
+                    board[0][index]++; //можно сократить код
                     index--;
                 }
                 else {
                     sum--;
                     end=true;
-                    MyMancala++;
+                    CompMancala++;
                     break;
                 }
             }
-            if (sum!=0){
+            if (sum!=0){ //убрать       //очи выше поднимите и прочитайте. Елена
                 index=0;
                 while(sum!=0) {
+                    //end = false;  // можем в следующей итерации попасть на свое поле, но не в манкалу, поэтому сбрасываем true
+                    //также не вижу возможности данной ситуации. Елена
                     if (index<6) {
                         flag=true;
                         sum--;
-                        board[1][index]++;
+                        board[1][index]++;  //можно сократить код       //Каким образом возможно сократить?
                         index++;
-                    }
-                    else{
-                        sum--;
-                        break;
                     }
                 }
             }
+            index = 5;
         }
-        if (!flag){
-            if(!end){
+        if (!flag){  //остались на своем поле
+            if(!end){   //последний камень не в манкале
                 if(board[0][index+1]!=1)
                     Step(index+2);
                 else{
-                    MyMancala+=board[1][index+1];
+                    CompMancala+=board[1][index+1];
                     board[1][index+1]=0;
                     return false;
                 }
             }
             else
-                gear=true;
+                return true;
+                //gear=true;   //return true        // Вы как всегда правы, Евгения.
         }
-        return gear;
+        return false;
+        //return gear;  //можно убрать переменную, вместо неё return false
     }
+
     //Для пользователя, параметр player для полиморфизма
-    public boolean Step(int niche, int player){
-        int index=niche-1;
-        boolean flag=false;
+    public boolean Step(int hole, int player){
+        int index=hole-1;
+        boolean flag=false;  //переход на чужое поле - true
         int sum=board[player][index];
-        boolean end=false;      //индикатор границы своего поля
-        boolean gear=false;
+        if (sum == 0)
+            return false;
+        boolean end=false;      //индикатор границы своего поля //индикатор попадания в свою манкалу
+        //boolean gear=false; // ненужная!
         board[player][index]=0;
         index++;
-        while (sum!=0){
+        //добавить еще 1 цикл, для случая возвращения на свое поле      // по поводу сего замечания взор свой устремите в предыдущий метод
+        if (sum!=0){ //убрать
             while (sum!=0) {
                 flag = false;
                 if (index < 6) {
@@ -97,7 +108,7 @@ public class Board {
                     break;
                 }
             }
-            if (sum!=0) {
+            if (sum!=0) { //убрать
                 index=5;
                 while(sum!=0){
                     if (index>=0){
@@ -106,12 +117,9 @@ public class Board {
                         board[player-1][index]++;
                         index--;
                     }
-                    else{
-                        sum--;
-                        break;
-                    }
                 }
             }
+            index = 0;
         }
         if (!flag){
             if (!end){
@@ -121,65 +129,63 @@ public class Board {
                 else{
                     YouMancala+=board[player-1][index-1];
                     board[player-1][index-1]=0;
-                    return gear;
+                    return false;
+                    //return gear; //return false
                 }
             }
             else
-                gear=true;
+            return true;
+                //gear=true; //return true
         }
-        return gear;
+        return false;
+        //return gear; //можно убрать переменную, вместо неё return false
     }
 
-    /* просто посмотреть результаты работы функций*/
-    public void print(){
-        for (int i=0;i<2;i++){
-            for (int j=0;j<6;j++)
-                System.out.print(board[i][j] + " ");
-            System.out.println();
-        }
-        System.out.println(MyMancala+" "+YouMancala);
-        System.out.println();
+    public int[][] getBoard() {
+        return this.board;
     }
-    public int [][] getBoard() {
-        return board;
+
+    public int getYouMancala() {
+        return this.YouMancala;
+    }
+
+    public int getCompMancala() {
+        return this.CompMancala;
     }
 
     public void setBoard(int[][] board) {
         this.board = board;
     }
 
-    public boolean CheckEndGame (){
-        short flag=0;
-        for (int x []: board){
-            for (int y : x)
-                if (y==0)
-                    flag++;
-            if (flag==6)
+    public boolean CheckEndGame() {
+        short flag = 0;     //число пустых ниш на поле игрока
+
+        for(int i = 0; i < 2; ++i) {
+            for(int j = 0; j < 6; ++j) {
+                if(this.board[i][j] == 0) {
+                    ++flag;
+                }
+            }
+            if(flag == 6) {
+                if (i == 0)
+                    for (int j = 0; j < 6; j++){
+                        YouMancala += board[1][j];
+                        board[1][j] = 0;
+                    }
+                else
+                    for (int j = 0; j < 6; j++){
+                        CompMancala += board[0][j];
+                        board[0][j] = 0;
+                    }
                 return true;
-            flag=0;
+            }
+            flag = 0;
         }
+
         return false;
     }
-    public int userInput(){
-        Scanner sc = new Scanner(System.in);
-        Integer i = null;
-        while (true) {
-            String inputText = sc.nextLine();
-            try {
-                i = Integer.parseInt(inputText);
-                break;
-            }catch (NumberFormatException e){
-                System.out.println("Error! You must enter an integer. Retype " + e.getLocalizedMessage());
-            }
-        }
-        return i;
-    }
-    public void winner()
-    {
-        if (this.MyMancala>this.YouMancala) System.out.print("\nYou lost!");
-        else
-        if (this.MyMancala<this.YouMancala) System.out.print("\nYou win!");
-        else System.out.print("\nDead heat");
+
+    public String winner() {
+        return this.CompMancala > this.YouMancala?"You lose!":(this.CompMancala < this.YouMancala?"You win!":"Dead heat");
     }
 }
-
