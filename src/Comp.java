@@ -5,7 +5,7 @@ public class Comp extends Tree {
 
     public Comp(int step, Board board) {
         super(step);
-        this.AssessTree(this.getRoot(), this.player, (int[][])null, 0, board);
+        this.AssessTree(this.getRoot(), this.player, null, 0, board);
         this.best = this.BestStep(this.getRoot(), board);
     }
 
@@ -18,7 +18,7 @@ public class Comp extends Tree {
         int[] MasAssess = this.AssessStep(root, board);
         int IndexMaxMark = 0;
 
-        for(int i = 0; i < 6; ++i) {   //цикл можно начать с 1, нет смысла сравнивать одинаковые значения
+        for(int i = 1; i < 6; ++i) {   //цикл можно начать с 1, нет смысла сравнивать одинаковые значения
             if(MasAssess[IndexMaxMark] < MasAssess[i]) {
                 IndexMaxMark = i;
             }
