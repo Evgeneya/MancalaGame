@@ -27,17 +27,15 @@ public class Board {
         if (sum == 0)
             return false;
         boolean end=false;      //индикатор попадания в свою манкалу
-        boolean gear=false;
         board[0][index]=0;
         index--;
-        //добавить еще 1 цикл, для случая возвращения на свое поле
-        if (sum!=0){  // убрать
+
+        while (sum!=0){
+            flag = false;
             while(sum!=0){
-                //flag = false //можем вернуться в этот цикл, то есть на свое поле
                 if(index>=0){
                     sum--;
-                    board[0][index]++; //можно сократить код
-                    index--;
+                    board[0][index--]++;
                 }
                 else {
                     sum--;
@@ -46,21 +44,19 @@ public class Board {
                     break;
                 }
             }
-            if (sum!=0){ //убрать
+            if (sum != 0){
                 index=0;
-                while(sum!=0) {
-                    //end = false;  // можем в следующей итерации попасть на свое поле, но не в манкалу, поэтому сбрасываем true
-                    if (index<6) {
-                        flag=true;
-                        sum--;
-                        board[1][index]++;  //можно сократить код
-                        index++;
-                    }
-                    else{
-                        sum--;  //зачем? в манкалу противника камни не раскладываются
-                        //index = 5; // вдруг сумма еще не 0 и нужно продолжить расклад на своем поле
-                        break;
-                    }
+                end = false;
+                flag = true;
+            }
+            while(sum!=0) {
+                if (index<6) {
+                    sum--;
+                    board[1][index++]++;
+                }
+                else{
+                    index = 5; // вдруг сумма еще не 0 и нужно продолжить расклад на своем поле
+                    break;
                 }
             }
         }
@@ -75,9 +71,9 @@ public class Board {
                 }
             }
             else
-                gear=true;   //return true
+                return true;
         }
-        return gear;  //можно убрать переменную, вместо неё return false
+        return false;  //можно убрать переменную, вместо неё return false
     }
     //Для пользователя, параметр player для полиморфизма
     public boolean Step(int hole, int player){
@@ -87,17 +83,14 @@ public class Board {
         if (sum == 0)
             return false;
         boolean end=false;      //индикатор границы своего поля //индикатор попадания в свою манкалу
-        boolean gear=false; // ненужная!
         board[player][index]=0;
         index++;
-        //добавить еще 1 цикл, для случая возвращения на свое поле
-        if (sum!=0){ //убрать
+        while (sum!=0){
+            flag = false;
             while (sum!=0) {
-                flag = false;
                 if (index < 6) {
                     sum--;
-                    board[player][index]++;
-                    index++;
+                    board[player][index++]++;
                 } else {
                     sum--;
                     end = true;
@@ -105,20 +98,19 @@ public class Board {
                     break;
                 }
             }
-            if (sum!=0) { //убрать
-                index=5;
-                while(sum!=0){
-                    if (index>=0){
-                        flag=true;
-                        sum--;
-                        board[player-1][index]++;
-                        index--;
-                    }
-                    else{
-                        sum--;  //зачем?
-                        //index = 0;
-                        break;
-                    }
+            if (sum != 0) {
+                index = 5;
+                end = false;
+                flag = true;
+            }
+            while(sum!=0){
+                if (index>=0) {
+                    sum--;
+                    board[player - 1][index--]++;
+                }
+                else{
+                    index = 0;
+                    break;
                 }
             }
         }
@@ -130,13 +122,13 @@ public class Board {
                 else{
                     YouMancala+=board[player-1][index-1];
                     board[player-1][index-1]=0;
-                    return gear; //return false
+                    return false;
                 }
             }
             else
-                gear=true; //return true
+                return true;
         }
-        return gear; //можно убрать переменную, вместо неё return false
+        return false;
     }
 
     public int[][] getBoard() {
