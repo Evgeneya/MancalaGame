@@ -25,10 +25,9 @@ public class Tree {
             boolean end = false;
             if(pl == 0) {  // if (!player)
                 --index;
-
                 while(sum != 0) {
+                    flag = false;  //убрала из след. цикла
                     while(sum != 0) {
-                        flag = false;
                         if(index < 0) {
                             --sum;
                             end = true;
@@ -37,29 +36,28 @@ public class Tree {
                         }
 
                         --sum;
-                        ++dop[0][index];
-                        --index;
+                        ++dop[0][index--];
                     }
 
-                    if(sum != 0) {  //убрать
-                        for(index = 0; sum != 0; ++index) {
-                            if(index >= 6) {
-                                --sum; //зачем?
-                                //index = 5; //для след. итерации
-                                break;
-                            }
+                    if (sum != 0){
+                        end = false;   //возможно при обходе вернемся на свое поле, но не в манкалу, поэтому ставим false
+                        flag = true;  // убрала из цикла, чтобы по 10 раз не инициализировать
+                    }
+                    for(index = 0; sum != 0; ++index) {
 
-                            //end = false;
-                            flag = true;
-                            --sum;
-                            ++dop[1][index];
+                        if(index >= 6) {
+                            index = 5; //для след. итерации
+                            break;
                         }
+
+                        --sum;
+                        ++dop[1][index];
                     }
                 }
 
                 if(!flag) {
                     if(!end) {
-                        if(dop[0][index + 1] <= 1) {  //ровно 1
+                        if(dop[0][index + 1] == 1) {  //ровно 1
                             this.mark += dop[1][index + 1];
                             dop[1][index + 1] = 0;
                             return this.mark;
@@ -74,40 +72,38 @@ public class Tree {
                 }
             } else {
                 ++index;
-
                 while(sum != 0) {
+                    flag = false;
                     while(sum != 0) {
-                        flag = false;
                         if(index >= 6) {
-                            --sum;  //почему не влияет на mark
+                            --sum;
                             end = true;
                             break;
                         }
 
                         --sum;
-                        ++dop[1][index];
-                        ++index;
+                        ++dop[1][index++];
                     }
 
-                    if(sum != 0) { //убрать
-                        for(index = 5; sum != 0; --index) {
-                            if(index < 0) {
-                                --sum;  //влияние на mark
-                                //index = 0;  //для след. цикла
-                                break;
-                            }
-
-                            //end = false;
-                            flag = true;
+                    if(sum != 0) {
+                        end = false;
+                        flag = true;
+                    }
+                    for(index = 5; sum != 0; --index) {
+                        if(index < 0) {
                             --sum;
-                            ++dop[0][index];
+                            index = 0;  //для след. итерации
+                            break;
                         }
+
+                        --sum;
+                        ++dop[0][index];
                     }
                 }
 
                 if(!flag) {
                     if(!end) {
-                        if(dop[1][index - 1] <= 1) { //ровно 1
+                        if(dop[1][index - 1] == 1) {
                             dop[0][index - 1] = 0;
                             return this.mark;
                         }
@@ -118,16 +114,16 @@ public class Tree {
                     }
                 }
             }
-
             return this.mark;
         }
     }
 
+    // массив mas используется для реализации рекурсии, смотри рекурсивный вызов ниже
     public void AssessTree(TreeNode cur, boolean player, int[][] mas, int level, Board board) {
         if(level <= 5) {
             this.mark = 0;
             boolean gear = false;
-            int[][] dopBoard = board.getBoard();
+            //согласна, не нужна копия массива
             int[][] dop1 = new int[2][6];
             int[][] dop2 = new int[2][6];
 
@@ -135,7 +131,7 @@ public class Tree {
             int j;
             for(i = 0; i < 2; ++i) {
                 for(j = 0; j < 6; ++j) {
-                    dop1[i][j] = dopBoard[i][j];
+                    dop1[i][j] = board.getBoard()[i][j];
                 }
             }
 
@@ -238,7 +234,7 @@ public class Tree {
 
     public int[] AssessStep(TreeNode root, Board board) {
         int[] MasAssess = new int[6];
-        int[][] field = board.getBoard();
+        int[][] field = board.getBoard();  //мне кажется прога работает быстрее, если не обращается постоянно в др. класс за полем board
         this.sum = 0;
         if(field[0][root.getHole1().getHole()-1] != 0) {
             MasAssess[0] = this.Sum(root.getHole1(), 1);
