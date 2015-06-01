@@ -131,6 +131,8 @@ public class Game extends Application {
         grid.setHalignment(pointMancala, CENTER);
         grid.setHalignment(compMancala, CENTER);
 
+        // можно передавать в метод степ сразу номер ниши и в самом методе эту проверку убрать
+
         pointOne.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -138,7 +140,7 @@ public class Game extends Application {
             }
         });
 
-        // можно передавать в метод степ сразу номер ниши и в самом методе эту проверку убрать
+
         pointTwo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
