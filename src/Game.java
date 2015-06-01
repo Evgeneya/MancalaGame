@@ -24,26 +24,31 @@ public class Game extends Application {
     private Board board = new Board();
     private boolean gear = true;
     private int step = 0;
-    GridPane grid;
-    MyButton pointOne;
-    MyButton pointTwo;
-    MyButton pointThree;
-    MyButton pointFour;
-    MyButton pointFive;
-    MyButton pointSix;
-    Label pointMancala;
-    MyButton compOne;
-    MyButton compTwo;
-    MyButton compThree;
-    MyButton compFour;
-    MyButton compFive;
-    MyButton compSix;
-    Label compMancala;
+    private GridPane grid;
+    private MyButton pointOne;
+    private MyButton pointTwo;
+    private MyButton pointThree;
+    private MyButton pointFour;
+    private MyButton pointFive;
+    private MyButton pointSix;
+    private Label pointMancala;
+    private MyButton compOne;
+    private MyButton compTwo;
+    private MyButton compThree;
+    private MyButton compFour;
+    private MyButton compFive;
+    private MyButton compSix;
+    private Label compMancala;
 
-    Stage primaryStage;
+    private Stage primaryStage;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
-    public void start(Stage stage) throws Exception {        primaryStage = stage;
+    public void start(Stage stage) throws Exception {
+        primaryStage = stage;
         primaryStage.setTitle("Mancala");
         primaryStage.getIcons().add(new Image("mancalaIcon.png"));
         primaryStage.setResizable(false);
@@ -133,6 +138,7 @@ public class Game extends Application {
             }
         });
 
+        // можно передавать в метод степ сразу номер ниши и в самом методе эту проверку убрать
         pointTwo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -169,11 +175,8 @@ public class Game extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
-    private void step(Button button) {
+    public void step(Button button) {
         this.gear = true;
         if(button.equals(this.pointOne)) {
             if(this.board.getSum(1) != 0) {
@@ -218,7 +221,8 @@ public class Game extends Application {
             if (s.equals("You lose!")){
                 result.getIcons().add(new Image("loser.png"));
             }
-            else if (s.equals("You win!")){                result.getIcons().add(new Image("winner.png"));
+            else if (s.equals("You win!")){
+                result.getIcons().add(new Image("winner.png"));
 
             }
             else {
